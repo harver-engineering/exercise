@@ -78,3 +78,25 @@ Promise.all(promises2).then(output => write({ data: output.join('\n'), toFile: t
  * Write the information to a file in the root
  */
 // Wrote to a file named "output.txt", by using { toFile: false } you can write to console
+
+/**
+ * Bonus
+ */
+// 1. Output numbers are already in ascending order as we print only after all promises are resolve
+// 2. Solution already is runs in less than 1000ms as we map all, below implementation is to check the execution time(ms)
+
+const getRandomWordSecureLate = async () => {
+    try {
+        return await getRandomWord({withErrors: true, slow: true});
+    } catch (error) {
+        return "It shouldn't break anything!";
+    }
+};
+
+let start = new Date().getTime();
+const fizzBuzzRandomWordsAsyncLate = async (id) => id + ": " + (doFizzBuzz(id) || await getRandomWordSecureLate());
+let promises3 = ids.map(id => fizzBuzzRandomWordsAsyncLate(id));
+Promise.all(promises3).then(output => {
+    write({ data: output.join('\n'), toFile: true });
+    console.log("Execution time(ms): " + (new Date().getTime() - start));
+});
