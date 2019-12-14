@@ -11,3 +11,15 @@ console.info("\n*** Task 1 ***\n");
 
 const randomWords = (id) => id + ": " + getRandomWordSync();
 ids.map(id => console.log(randomWords(id)));
+
+/**
+ * Task 2
+ * Random words with "Fizz Buzz" program
+ */
+console.info("\n*** Task 2 ***\n");
+
+// "Fizz Buzz" program
+const doFizzBuzz = (id) => (id%3 === 0 ? "Fizz" : "") + (id%5 === 0 ? "Buzz" : "");
+
+const fizzBuzzRandomWords = (id) => id + ": " + (doFizzBuzz(id) || getRandomWordSync());
+ids.map(id => console.log(fizzBuzzRandomWords(id)));
