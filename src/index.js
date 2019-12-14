@@ -1,4 +1,5 @@
 const { getRandomWordSync, getRandomWord } = require('word-maker');
+const { write } = require('./writer');
 
 /**
  * Handle intermittent error throw for synchronous getRandomWordSync
@@ -32,7 +33,8 @@ const ids = Array.from(Array(100).keys()).map( id => id + 1);
 console.info("\n*** Task 1 ***\n");
 
 const randomWords = (id) => id + ": " + getRandomWordSyncSecure();
-ids.map(id => console.log(randomWords(id)));
+let out = ids.map(id => randomWords(id));
+write({ data: out.join('\n'), toFile: true });
 
 /**
  * Task 2
@@ -44,27 +46,35 @@ console.info("\n*** Task 2 ***\n");
 const doFizzBuzz = (id) => (id%3 === 0 ? "Fizz" : "") + (id%5 === 0 ? "Buzz" : "");
 
 const fizzBuzzRandomWords = (id) => id + ": " + (doFizzBuzz(id) || getRandomWordSyncSecure());
-ids.map(id => console.log(fizzBuzzRandomWords(id)));
+let out2 = ids.map(id => fizzBuzzRandomWords(id));
+write({ data: out2.join('\n'), toFile: true });
 
 /**
  * Task 3
  * Asynchronous Implementations of Task 1 & 2
  */
+console.info("\n*** Task 3 ***\n");
 
 // 3.1 Async Random Words
 
 const randomWordsAsync = async (id) => id + ": " + await getRandomWordSecure();
 let promises = ids.map(id => randomWordsAsync(id));
-Promise.all(promises).then(output => console.log(output.join('\n')));
+Promise.all(promises).then(output => write({ data: output.join('\n'), toFile: true }));
 
 // 3.2 Async Random words with "Fizz Buzz" program
 
 const fizzBuzzRandomWordsAsync = async (id) => id + ": " + (doFizzBuzz(id) || await getRandomWordSecure());
 let promises2 = ids.map(id => fizzBuzzRandomWordsAsync(id));
-Promise.all(promises2).then(output => console.log(output.join('\n')));
+Promise.all(promises2).then(output => write({ data: output.join('\n'), toFile: true }));
 
 /**
  * Task 4
  * Error handling to both the synchronous and asynchronous solutions
  */
 // Added getRandomWordSyncSecure() and getRandomWordSecure()
+
+/**
+ * Task 5
+ * Write the information to a file in the root
+ */
+// Wrote to a file named "output.txt", by using { toFile: false } you can write to console
