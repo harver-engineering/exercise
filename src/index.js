@@ -1,5 +1,27 @@
 const { getRandomWordSync, getRandomWord } = require('word-maker');
 
+/**
+ * Handle intermittent error throw for synchronous getRandomWordSync
+ */
+const getRandomWordSyncSecure = () => {
+    try {
+        return getRandomWordSync({ withErrors: true });
+    } catch (error) {
+        return "It shouldn't break anything!";
+    }
+};
+
+/**
+ * Handle intermittent error throw for asynchronous getRandomWord
+ */
+const getRandomWordSecure = async () => {
+    try {
+        return await getRandomWord({withErrors: true});
+    } catch (error) {
+        return "It shouldn't break anything!";
+    }
+};
+
 // create numbers from 1 to 100
 const ids = Array.from(Array(100).keys()).map( id => id + 1);
 
@@ -9,7 +31,7 @@ const ids = Array.from(Array(100).keys()).map( id => id + 1);
  */
 console.info("\n*** Task 1 ***\n");
 
-const randomWords = (id) => id + ": " + getRandomWordSync();
+const randomWords = (id) => id + ": " + getRandomWordSyncSecure();
 ids.map(id => console.log(randomWords(id)));
 
 /**
@@ -21,7 +43,7 @@ console.info("\n*** Task 2 ***\n");
 // "Fizz Buzz" program
 const doFizzBuzz = (id) => (id%3 === 0 ? "Fizz" : "") + (id%5 === 0 ? "Buzz" : "");
 
-const fizzBuzzRandomWords = (id) => id + ": " + (doFizzBuzz(id) || getRandomWordSync());
+const fizzBuzzRandomWords = (id) => id + ": " + (doFizzBuzz(id) || getRandomWordSyncSecure());
 ids.map(id => console.log(fizzBuzzRandomWords(id)));
 
 /**
@@ -31,12 +53,18 @@ ids.map(id => console.log(fizzBuzzRandomWords(id)));
 
 // 3.1 Async Random Words
 
-const randomWordsAsync = async (id) => id + ": " + await getRandomWord();
+const randomWordsAsync = async (id) => id + ": " + await getRandomWordSecure();
 let promises = ids.map(id => randomWordsAsync(id));
 Promise.all(promises).then(output => console.log(output.join('\n')));
 
 // 3.2 Async Random words with "Fizz Buzz" program
 
-const fizzBuzzRandomWordsAsync = async (id) => id + ": " + (doFizzBuzz(id) || await getRandomWord());
+const fizzBuzzRandomWordsAsync = async (id) => id + ": " + (doFizzBuzz(id) || await getRandomWordSecure());
 let promises2 = ids.map(id => fizzBuzzRandomWordsAsync(id));
 Promise.all(promises2).then(output => console.log(output.join('\n')));
+
+/**
+ * Task 4
+ * Error handling to both the synchronous and asynchronous solutions
+ */
+// Added getRandomWordSyncSecure() and getRandomWordSecure()
