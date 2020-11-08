@@ -9,6 +9,7 @@
   "author": "Phil Mander <philip@harver.com>",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.0",
     "random-words": "^1.1.0",
     "word-maker": "file:word-maker"
   }

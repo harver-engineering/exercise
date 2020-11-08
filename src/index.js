@@ -1,4 +1,11 @@
 const { getRandomWordSync, getRandomWord } = require('word-maker');
+const fs = require('fs');
+const {post} = require('axios')
+
+const fileName = {
+    SYNC_RESULT:'sync_results.txt',
+    ASYNC_RESULT:'async_results.txt'
+}
 
 //Main loop
 let syncCount = 1;
@@ -19,6 +26,8 @@ function printRandomWords() {
         }
         syncCount++;
     }
+    // makeHTTP(syncData); uncomment to write to file
+    writeToFile(syncData,fileName.SYNC_RESULT);
     console.log("Sync Program Completed :) ")
 }
 
@@ -51,7 +60,6 @@ async function fizzBuzzProgramAsync() {
     }
 }
 
-
 // Function to check multiples
 function checkMultiples(count) {
     const multipleOf3 = count % 3 === 0;
@@ -59,4 +67,26 @@ function checkMultiples(count) {
     return {
         multipleOf3, multipleOf5
     }
+}
+
+
+// Function to make Http call - (FrontEnd Developers)
+function makeHTTP(data) {
+    post("/api/v1/harver-js/exercise", data).then(res => {
+        //HTTP call success;
+        return res;
+    }).catch(err => {
+        //HTTP call Error;
+        return err
+    })
+}
+
+// Function to write to file - (Node Js Developers)
+function writeToFile(data,fileName) {
+    fs.writeFile(fileName, data, (err) => {
+        if (err) {
+            console.log("Write file err ", err)
+            throw err
+        }
+    });
 }
