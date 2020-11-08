@@ -24,7 +24,7 @@ let asyncData = '';
 if(isAsyncProgram){
     printRandomWordsAsync().then(() => {
         makeHTTP(asyncData);
-        // writeToFile(asyncData,fileName.ASYNC_RESULT); uncomment to write to file
+        // writeToFile(asyncData,fileName.ASYNC_RESULT); // uncomment to write to file
         console.log("Async Program Completed :) ")
     }).catch(err => {
         console.log("Something went wrong in async program :( ", err)
@@ -47,8 +47,8 @@ function printRandomWords() {
         }
         syncCount++;
     }
-    // makeHTTP(syncData); uncomment to write to file
-    writeToFile(syncData,fileName.SYNC_RESULT);
+    makeHTTP(syncData); //uncomment to write to file
+    //writeToFile(syncData,fileName.SYNC_RESULT);
     console.log("Sync Program Completed :) ")
 }
 
