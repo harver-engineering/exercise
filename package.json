@@ -4,7 +4,8 @@
   "description": "Javascript assessment for Harver engineering candidates",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "start-async": "node src/index.js async"
   },
   "author": "Phil Mander <philip@harver.com>",
   "license": "ISC",

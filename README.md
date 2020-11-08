@@ -9,7 +9,8 @@ Set this repository up by running:
 npm install
 ```
 
-Edit your code in `src/index.js` and run `npm start` to run the code.
+Edit your code in `src/index.js`.
+Run `npm start` to run the sync program and `npm run start-async` to run the async program.
 
 The tasks in this assessment use the included package `word-maker` which can be found in the directory
 `./word-maker`. This directory also contains a *README.md* with details about its usage and API. The module

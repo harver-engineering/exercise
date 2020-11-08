@@ -1,6 +1,14 @@
-const { getRandomWordSync, getRandomWord } = require('word-maker');
+const {getRandomWordSync, getRandomWord} = require('word-maker');
 const fs = require('fs');
 const {post} = require('axios')
+
+
+let isAsyncProgram = false;
+process.argv.forEach(function (val, index, array) {
+    if(index === 2 && val === 'async'){
+        isAsyncProgram = true;
+    }
+});
 
 const fileName = {
     SYNC_RESULT:'sync_results.txt',
@@ -13,7 +21,20 @@ let asyncCount = 1;
 let syncData = '';
 let asyncData = '';
 
-printRandomWords();
+if(isAsyncProgram){
+    printRandomWordsAsync().then(() => {
+        makeHTTP(asyncData);
+        // writeToFile(asyncData,fileName.ASYNC_RESULT); uncomment to write to file
+        console.log("Async Program Completed :) ")
+    }).catch(err => {
+        console.log("Something went wrong in async program :( ", err)
+    });
+}else{
+    printRandomWords();
+}
+
+
+
 // Printing sync Random numbers
 function printRandomWords() {
     console.log("Running sync Program")
@@ -60,16 +81,6 @@ async function fizzBuzzProgramAsync() {
     }
 }
 
-// Function to check multiples
-function checkMultiples(count) {
-    const multipleOf3 = count % 3 === 0;
-    const multipleOf5 = count % 5 === 0;
-    return {
-        multipleOf3, multipleOf5
-    }
-}
-
-
 // Function to make Http call - (FrontEnd Developers)
 function makeHTTP(data) {
     post("/api/v1/harver-js/exercise", data).then(res => {
@@ -90,3 +101,14 @@ function writeToFile(data,fileName) {
         }
     });
 }
+
+// Function to check multiples
+function checkMultiples(count) {
+    const multipleOf3 = count % 3 === 0;
+    const multipleOf5 = count % 5 === 0;
+    return {
+        multipleOf3, multipleOf5
+    }
+}
+
+
