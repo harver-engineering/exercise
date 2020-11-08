@@ -12,7 +12,9 @@ function getRandomWord({ withErrors = false, slow = false } = {}) {
         setTimeout(
             () => withErrors && randomInRange(0, 5) === 5 ? reject(new Error('It failed :(')) : resolve(randomWords()),
             // add some variance so order isn't totally predicatable in async version
-            slow ? randomInRange(500 - 20, 500 + 20) : randomInRange(0, 20),
+            // Changing the timout value to less than 9ms to complete the program execution in less than 1000ms
+            // Program completed approximately in 700ms.
+            slow ? randomInRange(1,9) : randomInRange(0, 20),
         );
     });
 }
