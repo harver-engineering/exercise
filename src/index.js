@@ -2,7 +2,9 @@ const { getRandomWordSync, getRandomWord } = require('word-maker');
 
 //Main loop
 let syncCount = 1;
+let asyncCount = 1;
 let syncData = '';
+let asyncData = '';
 
 printRandomWords();
 // Printing sync Random numbers
@@ -25,6 +27,30 @@ function fizzBuzzProgram() {
     const {multipleOf3, multipleOf5} = checkMultiples(syncCount);
     return multipleOf3 && multipleOf5 ? "FizzBuzz" : (multipleOf3 ? 'Fizz' : (multipleOf5 ? "Buzz" : getRandomWordSync({withErrors: true})));
 }
+
+// Printing async Random numbers
+async function printRandomWordsAsync() {
+    console.log("Running async Program")
+    while (asyncCount <=100){
+        const randomWord = await fizzBuzzProgramAsync();
+        asyncData = asyncData + `${asyncCount}: ${randomWord}\n`;
+        asyncCount++;
+    }
+
+    return Promise.resolve()
+}
+
+// Async FizzBuzz Program
+async function fizzBuzzProgramAsync() {
+    const {multipleOf3, multipleOf5} = checkMultiples(asyncCount);
+    try {
+        const randomWord = await getRandomWord({withErrors: true,slow: true})
+        return multipleOf3 && multipleOf5 ? "FizzBuzz" : (multipleOf3 ? 'Fizz' : (multipleOf5 ? "Buzz" : randomWord));
+    } catch (err) {
+        return 'It shouldn\'t break anything!'
+    }
+}
+
 
 // Function to check multiples
 function checkMultiples(count) {
